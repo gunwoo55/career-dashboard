@@ -272,17 +272,21 @@
                 이번 주 마감 (긴급!)
             </div>
             
-            <div class="deadline-item urgent">
-                <div class="bank">광주은행 2026 상반기 신입행원</div>
-                <div class="date">서류 마감: 3월 18일 (화)</div>
-                <span class="d-day-tag">D-4</span>
-            </div>
+            <a href="https://www.kjbank.com/recruit" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="deadline-item urgent">
+                    <div class="bank">광주은행 2026 상반기 신입행원 🔗</div>
+                    <div class="date">서류 마감: 3월 18일 (화)</div>
+                    <span class="d-day-tag">D-4</span>
+                </div>
+            </a>
             
-            <div class="deadline-item">
-                <div class="bank">전북은행 2026 상반기 신입행원</div>
-                <div class="date">서류 마감: 3월 20일 (목)</div>
-                <span class="d-day-tag">D-6</span>
-            </div>
+            <a href="https://www.jbbank.co.kr/recruit" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="deadline-item">
+                    <div class="bank">전북은행 2026 상반기 신입행원 🔗</div>
+                    <div class="date">서류 마감: 3월 20일 (목)</div>
+                    <span class="d-day-tag">D-6</span>
+                </div>
+            </a>
         </div>
 
         <!-- Today's Study Plan -->
@@ -363,19 +367,54 @@
     </div>
 
     <script>
-        // Task checkbox toggle
-        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+        // Task checkbox toggle with localStorage
+        const today = new Date().toISOString().split('T')[0];
+        const storageKey = `tasks-${today}`;
+        
+        // Load saved state
+        const savedTasks = JSON.parse(localStorage.getItem(storageKey) || '{}');
+        
+        document.querySelectorAll('.task-item').forEach((item, index) => {
+            const checkbox = item.querySelector('.task-checkbox');
+            
+            // Restore saved state
+            if (savedTasks[index]) {
+                checkbox.classList.add('checked');
+            }
+            
             checkbox.addEventListener('click', function() {
                 this.classList.toggle('checked');
+                // Save state
+                savedTasks[index] = this.classList.contains('checked');
+                localStorage.setItem(storageKey, JSON.stringify(savedTasks));
+                
+                // Report completion to coach (will be checked daily)
+                if (this.classList.contains('checked')) {
+                    console.log(`Task ${index} completed: ${item.querySelector('.task-title').textContent}`);
+                }
             });
         });
 
         // D-Day calculation
         const targetDate = new Date('2026-12-31');
-        const today = new Date();
-        const diffTime = targetDate - today;
+        const todayDate = new Date();
+        const diffTime = targetDate - todayDate;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         document.querySelector('.d-day-box .days').textContent = `D-${diffDays}`;
+        
+        // Export task status for daily report
+        window.getTaskStatus = function() {
+            const tasks = [];
+            document.querySelectorAll('.task-item').forEach((item, index) => {
+                const checkbox = item.querySelector('.task-checkbox');
+                const title = item.querySelector('.task-title').textContent;
+                tasks.push({
+                    title: title,
+                    completed: checkbox.classList.contains('checked')
+                });
+            });
+            return tasks;
+        };
     </script>
 </body>
 </html>
