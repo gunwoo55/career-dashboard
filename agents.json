@@ -8,6 +8,7 @@
       "role": "취업 코치",
       "avatar": "🦊",
       "status": "active",
+      "isTyping": true,
       "currentTask": "리포트 생성 완료",
       "nextTask": "내일 08:00 리포트",
       "schedule": "08:00, 21:00"
