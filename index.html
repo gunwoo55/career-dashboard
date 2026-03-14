@@ -4,420 +4,669 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>취뽀대시보드 | 최건우님</title>
-    <script>
-        // Cache busting - force reload every visit
-        if (!window.location.search.includes('nocache=')) {
-            window.location.href = window.location.href + (window.location.search ? '&' : '?') + 'nocache=' + Date.now();
-        }
-    </script>
+    <title>🏢 OpenClaw Agent Office</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --accent-primary: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #475569;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 16px;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-        }
+
+        /* Header */
         .header {
-            background: white;
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            text-align: center;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header h1 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        .header .subtitle {
-            color: #666;
-            font-size: 14px;
-        }
-        .d-day-box {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
-            color: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(238,90,90,0.3);
-        }
-        .d-day-box .label {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-        .d-day-box .days {
-            font-size: 48px;
-            font-weight: bold;
-            line-height: 1;
-        }
-        .d-day-box .target {
-            font-size: 14px;
-            margin-top: 8px;
-            opacity: 0.9;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 16px;
+
+        .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.75rem;
         }
-        .card-title .icon {
-            font-size: 22px;
+
+        .logo-icon {
+            font-size: 2rem;
         }
-        .deadline-item {
-            background: #fff5f5;
-            border-left: 4px solid #ff6b6b;
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 8px;
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .deadline-item.urgent {
-            background: #ffe5e5;
-            border-left-color: #ff0000;
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-success);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-success);
+            border-radius: 50%;
             animation: pulse 2s infinite;
         }
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        .deadline-item .bank {
-            font-weight: 700;
-            color: #333;
-            font-size: 16px;
-        }
-        .deadline-item .date {
-            color: #666;
-            font-size: 14px;
-            margin-top: 4px;
-        }
-        .deadline-item .d-day-tag {
-            display: inline-block;
-            background: #ff6b6b;
-            color: white;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
-            margin-top: 8px;
-        }
-        .task-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .task-item:last-child {
-            border-bottom: none;
-        }
-        .task-checkbox {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #667eea;
-            border-radius: 6px;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-        .task-checkbox.checked {
-            background: #667eea;
-            position: relative;
-        }
-        .task-checkbox.checked::after {
-            content: '✓';
-            color: white;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 14px;
-        }
-        .task-content {
-            flex: 1;
-        }
-        .task-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 4px;
-        }
-        .task-desc {
-            font-size: 13px;
-            color: #888;
-        }
-        .study-section {
-            background: linear-gradient(135deg, #f5f7fa, #e4e8ec);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 12px;
-        }
-        .study-section h4 {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 12px;
-        }
-        .study-item {
+
+        .refresh-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            color: #444;
-            margin-bottom: 8px;
-        }
-        .chat-button {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--accent-primary);
             border: none;
-            border-radius: 12px;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            margin-top: 8px;
-            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-        }
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.7);
-            font-size: 12px;
-            padding: 20px;
-        }
-        .badge {
-            display: inline-block;
-            background: #667eea;
+            border-radius: 0.5rem;
             color: white;
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-right: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .stats-row {
+
+        .refresh-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .refresh-btn.spinning .refresh-icon {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Office Floor */
+        .office-floor {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .office-floor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .floor-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
             display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .stat-box {
-            flex: 1;
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+        /* Agent Desks */
+        .desks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
         }
-        .stat-box .number {
-            font-size: 28px;
+
+        .agent-desk {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-desk::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--status-color, var(--accent-primary));
+        }
+
+        .agent-desk:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .agent-desk.active { --status-color: var(--accent-success); }
+        .agent-desk.standby { --status-color: var(--accent-warning); }
+        .agent-desk.idle { --status-color: var(--text-secondary); }
+
+        .desk-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .agent-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--status-color, var(--border-color));
+        }
+
+        .agent-info h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .agent-role {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .agent-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.75rem;
+        }
+
+        .status-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--status-color);
+        }
+
+        .desk-monitor {
+            background: var(--bg-primary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .monitor-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .current-task {
+            color: var(--text-primary);
+        }
+
+        .next-task {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Activity Log */
+        .activity-section {
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--accent-success);
+        }
+
+        .log-container {
+            background: var(--bg-primary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .log-entry {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-time {
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .log-agent {
+            color: var(--accent-primary);
+            font-weight: 500;
+            min-width: 100px;
+        }
+
+        .log-action {
+            color: var(--text-primary);
+        }
+
+        .log-status {
+            margin-left: auto;
+        }
+
+        .status-success { color: var(--accent-success); }
+        .status-pending { color: var(--accent-warning); }
+        .status-error { color: var(--accent-danger); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #667eea;
         }
-        .stat-box .label {
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
+
+        /* Next Update Timer */
+        .update-timer {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .timer-icon {
+            font-size: 1.25rem;
+        }
+
+        .timer-text {
+            font-size: 0.875rem;
+        }
+
+        .timer-countdown {
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .desks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-primary);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>🎯 취뽀대시보드</h1>
-            <p class="subtitle">최건우님의 은행권 취업 성공을 위한 동반자</p>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🏢</span>
+            <span class="logo-text">OpenClaw Agent Office</span>
         </div>
-
-        <!-- D-Day -->
-        <div class="d-day-box">
-            <div class="label">⏰ 취업까지 남은 시간</div>
-            <div class="days">D-292</div>
-            <div class="target">목표: 2026년 12월 은행권 취업</div>
+        <div class="header-info">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>System Operational</span>
+            </div>
+            <button class="refresh-btn" onclick="refreshData()">
+                <span class="refresh-icon">🔄</span>
+                <span>새로고침</span>
+            </button>
         </div>
+    </header>
 
+    <main class="container">
         <!-- Stats -->
-        <div class="stats-row">
-            <div class="stat-box">
-                <div class="number">3.9</div>
-                <div class="label">학점</div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">활성 에이전트</div>
+                <div class="stat-value" id="active-count">-</div>
             </div>
-            <div class="stat-box">
-                <div class="number">4</div>
-                <div class="label">보유 자격증</div>
+            <div class="stat-card">
+                <div class="stat-label">총 작업 완료</div>
+                <div class="stat-value" id="total-tasks">-</div>
             </div>
-            <div class="stat-box">
-                <div class="number">0</div>
-                <div class="label">인턴 경험</div>
-            </div>
-        </div>
-
-        <!-- Current Status -->
-        <div class="card">
-            <div class="card-title">
-                <span class="icon">📋</span>
-                현재 채용 현황 (2026년 3월)
-            </div>
-            
-            <div class="deadline-item" style="background: #f0f9ff; border-left-color: #3b82f6;">
-                <div class="bank">현재 진행 중인 지방은행 공고 없음</div>
-                <div class="date">최근 확인: 2026년 3월 14일</div>
-                <span class="d-day-tag" style="background: #3b82f6;">모니터링 중</span>
-            </div>
-            
-            <div style="padding: 12px; background: #fffbeb; border-radius: 8px; margin-top: 12px; font-size: 14px; color: #92400e;">
-                <strong>⚠️ 정정:</strong> 이전에 표시된 광주/전북은행 공고는 2025년 이미 마감된 공고였습니다. 현재는 진행 중인 공고가 없습니다.
+            <div class="stat-card">
+                <div class="stat-label">마지막 업데이트</div>
+                <div class="stat-value" id="last-update" style="font-size: 1rem;">-</div>
             </div>
         </div>
 
-        <!-- Today's Study Plan -->
-        <div class="card">
-            <div class="card-title">
-                <span class="icon">📚</span>
-                오늘의 학습 플랜 (3/14 토)
-            </div>
-            
-            <div class="task-item">
-                <div class="task-checkbox"></div>
-                <div class="task-content">
-                    <div class="task-title">TOEIC 진단 테스트</div>
-                    <div class="task-desc">기출 문제 1세트 풀기 (시간X, 약점 파악)</div>
-                </div>
-            </div>
-            
-            <div class="task-item">
-                <div class="task-checkbox"></div>
-                <div class="task-content">
-                    <div class="task-title">전북은행 공고 확인</div>
-                    <div class="task-desc">네이버 검색: "전북은행 채용" → 지원 직무/자격 체크</div>
-                </div>
-            </div>
-            
-            <div class="task-item">
-                <div class="task-checkbox"></div>
-                <div class="task-content">
-                    <div class="task-title">자기소개서 초안 작성</div>
-                    <div class="task-desc">"왜 은행인가?" 주제로 500자 초안</div>
-                </div>
-            </div>
-
-            <div class="study-section">
-                <h4>📝 TOEIC 플랜 (5월 시험 대비)</h4>
-                <div class="study-item">
-                    <span>📖</span> 어제: 준비 단계 (진단)
-                </div>
-                <div class="study-item">
-                    <span>🎯</span> 오늘: 약점 파트 파악 → 학습 전략 수립
-                </div>
-                <div class="study-item">
-                    <span>📅</span> 다음주: Day 1 시작 (단어 50개/Day)
-                </div>
+        <!-- Agent Office Floor -->
+        <div class="office-floor">
+            <h2 class="floor-title">🖥️ Agent Workstations</h2>
+            <div class="desks-grid" id="desks-container">
+                <!-- Agents will be loaded here -->
             </div>
         </div>
 
-        <!-- Upcoming -->
-        <div class="card">
-            <div class="card-title">
-                <span class="icon">📅</span>
-                앞으로 일정
-            </div>
-            <div class="task-item">
-                <div class="task-content">
-                    <div class="task-title">4월 초 - TOEIC 접수 시작</div>
-                    <div class="task-desc">5월 시험 접수 (네이버: "TOEIC 접수")</div>
+        <!-- Activity Log -->
+        <div class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">📋 Live Activity Log</h2>
+                <div class="live-indicator">
+                    <span class="status-dot"></span>
+                    <span>LIVE</span>
                 </div>
             </div>
-            <div class="task-item">
-                <div class="task-content">
-                    <div class="task-title">4월 중 - 여름인턴 공고 예상</div>
-                    <div class="task-desc">KB, 신한, 우리, NH농협 등</div>
-                </div>
+            <div class="log-container" id="log-container">
+                <!-- Logs will be loaded here -->
             </div>
         </div>
+    </main>
 
-        <!-- Chat with Coach -->
-        <a href="#" class="chat-button" onclick="alert('디스코드에서 @클루 멘션하거나 "코치 불러줘"라고 말하세요!'); return false;">
-            💬 Career Coach 클루와 대화하기
-        </a>
-
-        <!-- Footer -->
-        <div class="footer">
-            마지막 업데이트: 2026년 3월 14일 07:00<br>
-            매일 아침 8시 자동 업데이트
+    <!-- Update Timer -->
+    <div class="update-timer">
+        <span class="timer-icon">⏱️</span>
+        <div class="timer-text">
+            다음 업데이트: <span class="timer-countdown" id="countdown">60초</span>
         </div>
     </div>
 
     <script>
-        // Task checkbox toggle with localStorage
-        const today = new Date().toISOString().split('T')[0];
-        const storageKey = `tasks-${today}`;
-        
-        // Load saved state
-        const savedTasks = JSON.parse(localStorage.getItem(storageKey) || '{}');
-        
-        document.querySelectorAll('.task-item').forEach((item, index) => {
-            const checkbox = item.querySelector('.task-checkbox');
+        // Configuration
+        const UPDATE_INTERVAL = 60000; // 1 minute
+        let countdown = 60;
+        let countdownInterval;
+
+        // Agent data (will be loaded from agents.json)
+        let agentsData = {
+            agents: [
+                {
+                    id: 'career-coach',
+                    name: 'Career Coach',
+                    role: '취업 코치',
+                    avatar: '🦊',
+                    status: 'active',
+                    currentTask: '리포트 생성 완료',
+                    nextTask: '내일 08:00 리포트',
+                    lastActivity: '2026-03-14T08:00:00Z'
+                },
+                {
+                    id: 'stock-manager',
+                    name: 'Stock Manager',
+                    role: '주식 매니저', 
+                    avatar: '📈',
+                    status: 'standby',
+                    currentTask: 'Uber 분석 완료',
+                    nextTask: '내일 08:30 보고서',
+                    lastActivity: '2026-03-14T16:30:00Z'
+                },
+                {
+                    id: 'code-mentor',
+                    name: 'Code Mentor',
+                    role: '코딩 멘토',
+                    avatar: '💻',
+                    status: 'idle',
+                    currentTask: '대기 중',
+                    nextTask: '요청 대기',
+                    lastActivity: null
+                }
+            ],
+            logs: [
+                { time: '08:00', agent: 'Career Coach', action: '아침 리포트 발송', status: 'success' },
+                { time: '08:30', agent: 'Stock Manager', action: '주식 보고서 발송', status: 'success' },
+                { time: '16:16', agent: 'Stock Manager', action: 'Uber 종목 추가', status: 'success' },
+                { time: '16:30', agent: 'Stock Manager', action: 'Uber 분석 완료', status: 'success' },
+                { time: '23:10', agent: 'System', action: 'Agent Office Dashboard 생성', status: 'success' }
+            ]
+        };
+
+        // Render agent desks
+        function renderAgents() {
+            const container = document.getElementById('desks-container');
+            const activeCount = agentsData.agents.filter(a => a.status === 'active').length;
             
-            // Restore saved state
-            if (savedTasks[index]) {
-                checkbox.classList.add('checked');
+            document.getElementById('active-count').textContent = `${activeCount}/${agentsData.agents.length}`;
+            document.getElementById('total-tasks').textContent = agentsData.logs.length;
+            document.getElementById('last-update').textContent = new Date().toLocaleTimeString('ko-KR');
+            
+            container.innerHTML = agentsData.agents.map(agent => `
+                <div class="agent-desk ${agent.status}">
+                    <div class="desk-header">
+                        <div class="agent-avatar">${agent.avatar}</div>
+                        <div class="agent-info">
+                            <h3>${agent.name}</h3>
+                            <div class="agent-role">${agent.role}</div>
+                            <div class="agent-status">
+                                <span class="status-indicator"></span>
+                                <span>${getStatusText(agent.status)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="desk-monitor">
+                        <div class="monitor-label">Current Task</div>
+                        <div class="current-task">${agent.currentTask}</div>
+                        <div class="next-task">⏰ ${agent.nextTask}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const texts = {
+                'active': '🟢 작업 중',
+                'standby': '⚪ 대기 중',
+                'idle': '🔴 휴식 중'
+            };
+            return texts[status] || status;
+        }
+
+        // Render activity logs
+        function renderLogs() {
+            const container = document.getElementById('log-container');
+            
+            container.innerHTML = agentsData.logs.slice().reverse().map(log => `
+                <div class="log-entry">
+                    <span class="log-time">${log.time}</span>
+                    <span class="log-agent">${log.agent}</span>
+                    <span class="log-action">${log.action}</span>
+                    <span class="log-status status-${log.status}">
+                        ${log.status === 'success' ? '✓' : log.status === 'pending' ? '⏳' : '✗'}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // Refresh data
+        async function refreshData() {
+            const btn = document.querySelector('.refresh-btn');
+            btn.classList.add('spinning');
+            
+            try {
+                // Try to load from agents.json
+                const response = await fetch('./agents.json?t=' + Date.now());
+                if (response.ok) {
+                    const data = await response.json();
+                    agentsData = { ...agentsData, ...data };
+                }
+            } catch (e) {
+                console.log('Using default data');
             }
             
-            checkbox.addEventListener('click', function() {
-                this.classList.toggle('checked');
-                // Save state
-                savedTasks[index] = this.classList.contains('checked');
-                localStorage.setItem(storageKey, JSON.stringify(savedTasks));
-                
-                // Report completion to coach (will be checked daily)
-                if (this.classList.contains('checked')) {
-                    console.log(`Task ${index} completed: ${item.querySelector('.task-title').textContent}`);
-                }
-            });
-        });
+            renderAgents();
+            renderLogs();
+            
+            setTimeout(() => {
+                btn.classList.remove('spinning');
+            }, 1000);
+        }
 
-        // D-Day calculation
-        const targetDate = new Date('2026-12-31');
-        const todayDate = new Date();
-        const diffTime = targetDate - todayDate;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        document.querySelector('.d-day-box .days').textContent = `D-${diffDays}`;
-        
-        // Export task status for daily report
-        window.getTaskStatus = function() {
-            const tasks = [];
-            document.querySelectorAll('.task-item').forEach((item, index) => {
-                const checkbox = item.querySelector('.task-checkbox');
-                const title = item.querySelector('.task-title').textContent;
-                tasks.push({
-                    title: title,
-                    completed: checkbox.classList.contains('checked')
-                });
-            });
-            return tasks;
-        };
+        // Countdown timer
+        function startCountdown() {
+            countdown = 60;
+            clearInterval(countdownInterval);
+            
+            countdownInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = `${countdown}초`;
+                
+                if (countdown <= 0) {
+                    refreshData();
+                    countdown = 60;
+                }
+            }, 1000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAgents();
+            renderLogs();
+            startCountdown();
+            
+            // Auto refresh every minute
+            setInterval(refreshData, UPDATE_INTERVAL);
+        });
     </script>
 </body>
 </html>
