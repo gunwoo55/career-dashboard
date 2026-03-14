@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-03-14T23:13:17.476401",
+  "system_status": "operational",
+  "agents": [
+    {
+      "id": "career-coach",
+      "name": "Career Coach",
+      "role": "취업 코치",
+      "avatar": "🦊",
+      "status": "active",
+      "currentTask": "리포트 생성 완료",
+      "nextTask": "내일 08:00 리포트",
+      "schedule": "08:00, 21:00"
+    },
+    {
+      "id": "stock-manager",
+      "name": "Stock Manager",
+      "role": "주식 매니저",
+      "avatar": "📈",
+      "status": "active",
+      "currentTask": "관심 종목: UBER",
+      "nextTask": "내일 08:30 보고서",
+      "schedule": "08:30"
+    },
+    {
+      "id": "code-mentor",
+      "name": "Code Mentor",
+      "role": "코딩 멘토",
+      "avatar": "💻",
+      "status": "idle",
+      "currentTask": "대기 중",
+      "nextTask": "요청 대기",
+      "schedule": "요청 시"
+    }
+  ],
+  "logs": [
+    {
+      "time": "08:00",
+      "agent": "Career Coach",
+      "action": "리포트 생성 및 전송",
+      "status": "success",
+      "date": "2026-03-14"
+    },
+    {
+      "time": "23:13",
+      "agent": "System",
+      "action": "Agent Office Dashboard 동기화",
+      "status": "success",
+      "date": "2026-03-14"
+    }
+  ],
+  "stats": {
+    "total_agents": 3,
+    "active_agents": 2,
+    "total_tasks": 2,
+    "watchlist_count": 1
+  }
+}
